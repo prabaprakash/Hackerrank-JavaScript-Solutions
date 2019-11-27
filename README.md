@@ -1,2 +1,2 @@
 # Hackerrank-JS-Solutions
-Solved entire easy problems in data structures category
+Solved entire easy problems & few medium problems in data structures category
