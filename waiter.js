@@ -22,10 +22,6 @@ function readLine() {
     return inputString[currentLine++];
 }
 
-/*
- * Complete the waiter function below.
- */
-
 function sieve(n) {
     let prime = Array(n + 1).fill(true);
     for (var i = 2; i < Math.round(Math.sqrt(n)); i++) {
@@ -43,31 +39,29 @@ function sieve(n) {
 }
 
 function waiter(number, qq, ws) {
-    let primenumbers = sieve(1200);
-    let a = [];
-    for (var i = 0; i < number.length; i++) {
-        if (number[i] % primenumbers[0] !== 0) {
-            a.push(number[i]);
-        } else {
-            ws.write(number[i] + "\n");
-        }
-    }
-    for (let q = 1; q < qq; q++) {
+    let primenumbers = sieve(10000);
+    let a = number;
+    for (let q = 0; q < qq; q++) {
         let c = [];
+        let d = []
         while (a.length > 0) {
             let val = a.pop();
             if (val % primenumbers[q] !== 0) {
                 c.push(val);
             }
             else {
-                ws.write(val + "\n");
+                d.push(val);
             }
+        }
+        while (d.length > 0) {
+            ws.write(d.pop() + "\n");
         }
         a = c;
     }
-    a.forEach(x => ws.write(x + "\n"));
+    while (a.length > 0) {
+        ws.write(a.pop() + "\n");
+    }
 }
-
 
 function main() {
     const ws = fs.createWriteStream(process.env.OUTPUT_PATH);
