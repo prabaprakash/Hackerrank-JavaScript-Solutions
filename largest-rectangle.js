@@ -27,38 +27,30 @@ function readLine() {
 // Complete the largestRectangle function below.
 function largestRectangle(h) {
     let max = Number.MIN_VALUE;
-    for (var i = 0; i < h.length; i++) {
-        let l = i - 1;
-        let r = i + 1;
-        let m = 1;
-        while (l > -1) {
-            if (h[l] >= h[i]) {
-                // console.log("left", l)
-                m++;
-            }
-            else {
+    for (var ith = 0; ith < h.length; ith++) {
+        let left = ith - 1;
+        let right = ith + 1;
+        let buildings = 1;
+        while (left > -1) {
+            if (h[left] >= h[ith])
+                buildings++;
+            else
                 break;
-            }
-            l--;
+            left--;
         }
-        while (h.length > r) {
-            // console.log("right", r)
-            if (h[r] >= h[i]) {
-                m++;
-            }
-            else {
+        while (h.length > right) {
+            if (h[right] >= h[ith])
+                buildings++;
+            else
                 break;
-            }
-            r++;
+            right++;
         }
-        console.log("mcount", m, h[i])
-        if (m * h[i] > max) {
-            max = m * h[i];
+        if (buildings * h[ith] > max) {
+            max = buildings * h[ith];
         }
-        m = 1;
+        buildings = 1;
     }
     return max;
-
 }
 
 function main() {
