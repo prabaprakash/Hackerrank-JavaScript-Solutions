@@ -24,31 +24,32 @@ function readLine() {
     return inputString[currentLine++];
 }
 
-const getIndexes = (pattern, match) => {
-    let indexes = [];
+const getIndices = (word, pattern) => {
+    let indices = [];
     let i = 0;
-    let index = pattern.indexOf(match, i);
+    let index = word.indexOf(pattern, i);
     while (index >= 0) {
-        indexes.push(index);
+        indices.push(index);
         i++;
-        index = pattern.indexOf(match, i);
+        index = word.indexOf(pattern, i);
     }
-    return Array.from(new Set(indexes));
+    return Array.from(new Set(indices));
 }
 function gridSearch(G, P) {
     let gridLength = G.length;
     let patternLength = P.length;
     for (let gridIndex = 0; gridIndex < gridLength; gridIndex++) {
         let patternIndex = 0;
-        let currentGrid = G[gridIndex + patternIndex];
-        let currentPattern = P[patternIndex];
-        let indexes = getIndexes(currentGrid, currentPattern);
-        for (let k = 0; k < indexes.length; k++) {
-            let pos = indexes[k];
+        let gridRow = G[gridIndex + patternIndex];
+        let patternRow = P[patternIndex];
+        let indices = getIndices(gridRow, patternRow);
+        for (let index in indices) {
+            let pos = indices[index];
             for (patternIndex = 1; patternIndex < patternLength; patternIndex++) {
-                currentGrid = G[gridIndex + patternIndex];
-                currentPattern = P[patternIndex];
-                if (getIndexes(currentGrid, currentPattern).indexOf(pos) === -1) {
+                gridRow = G[gridIndex + patternIndex];
+                patternRow = P[patternIndex];
+                let patternRowIndices = getIndices(gridRow, patternRow);
+                if (patternRowIndices.indexOf(pos) === -1) {
                     break;
                 }
             }
