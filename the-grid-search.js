@@ -38,13 +38,11 @@ const getIndexes = (pattern, match) => {
 function gridSearch(G, P) {
     let gridLength = G.length;
     let patternLength = P.length;
-    // console.log('G_length :', G_length, ' P_length:', P_length);
     for (let gridIndex = 0; gridIndex < gridLength; gridIndex++) {
         let patternIndex = 0;
         let currentGrid = G[gridIndex + patternIndex];
         let currentPattern = P[patternIndex];
         let indexes = getIndexes(currentGrid, currentPattern);
-        // console.log(indexes);
         for (let k = 0; k < indexes.length; k++) {
             let pos = indexes[k];
             for (patternIndex = 1; patternIndex < patternLength; patternIndex++) {
