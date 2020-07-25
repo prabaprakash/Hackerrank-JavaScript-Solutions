@@ -24,11 +24,11 @@ function readLine() {
     return inputString[currentLine++];
 }
 
-const getIndexes = (pattern, match) =>{
+const getIndexes = (pattern, match) => {
     let indexes = [];
-    let i=0;
+    let i = 0;
     let index = pattern.indexOf(match, i);
-    while(index >= 0){
+    while (index >= 0) {
         indexes.push(index);
         i++;
         index = pattern.indexOf(match, i);
@@ -36,27 +36,25 @@ const getIndexes = (pattern, match) =>{
     return Array.from(new Set(indexes));
 }
 function gridSearch(G, P) {
-    let G_length = G.length;
-    let P_length = P.length;
+    let gridLength = G.length;
+    let patternLength = P.length;
     // console.log('G_length :', G_length, ' P_length:', P_length);
-    for (let i = 0; i < G.length; i++) {
-        let j = i, p = 0;;
-        let currentGrid = G[i + p];
-        let currentPattern = P[p];
+    for (let gridIndex = 0; gridIndex < gridLength; gridIndex++) {
+        let patternIndex = 0;
+        let currentGrid = G[gridIndex + patternIndex];
+        let currentPattern = P[patternIndex];
         let indexes = getIndexes(currentGrid, currentPattern);
         // console.log(indexes);
         for (let k = 0; k < indexes.length; k++) {
             let pos = indexes[k];
-            if (pos !== -1) {
-                for (p = 1; p < P.length; p++) {
-                    currentGrid = G[i + p];
-                    currentPattern = P[p];
-                    if (getIndexes(currentGrid, currentPattern).indexOf(pos) === -1) {
-                        break;
-                    }
+            for (patternIndex = 1; patternIndex < patternLength; patternIndex++) {
+                currentGrid = G[gridIndex + patternIndex];
+                currentPattern = P[patternIndex];
+                if (getIndexes(currentGrid, currentPattern).indexOf(pos) === -1) {
+                    break;
                 }
             }
-            if (p === P_length)
+            if (patternIndex === patternLength)
                 return "YES";
         }
     }
