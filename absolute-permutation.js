@@ -1,99 +1,65 @@
+'use strict';
 
-// let permutation = [];
-// const permutate = (arr) => {
-//     for (let i = 0; i < arr.length - 1; i++) {
-//         let current = arr[i];
+const fs = require('fs');
 
-//         let next = arr[i + 1]
-//         arr[i] = next;
-//         arr[i + 1] = current;
-//         permutation.push(arr.map(x=>x));
-//         arr[i + 1] = next;
-//         arr[i] = current;
+process.stdin.resume();
+process.stdin.setEncoding('utf-8');
 
-//     }
-// }
+let inputString = '';
+let currentLine = 0;
 
-// let arr = [1, 2, 3]
-// permutate(arr)
-// console.log(permutation);
+process.stdin.on('data', inputStdin => {
+    inputString += inputStdin;
+});
 
+process.stdin.on('end', _ => {
+    inputString = inputString.replace(/\s*$/, '')
+        .split('\n')
+        .map(str => str.replace(/\s*$/, ''));
 
-let permArr = [],
-    usedChars = [];
-function permute(input, diff) {
-    var i, ch;
-    for (i = 0; i < input.length; i++) {
-        // fixed 1, then process [2,3]
-        ch = input.splice(i, 1)[0];
-        // usedchars [1]
-        usedChars.push(ch);
-        if (input.length == 0) {
-            let bool = true;
-            for (let k = 0; k < usedChars.length; k++) {
-                if (Math.abs((usedChars[k] - (k + 1))) !== diff) {
-                    bool = false;
-                    break;
-                }
-            }
-            // console.log(usedChars);
-            if (bool) {
-                return usedChars;
-            }
-        }
-        // processing [2,3]
-        let res = permute(input, diff)
-        if (res.length > 0) {
-            return res;
-        }
+    main();
+});
 
-        input.splice(i, 0, ch);
-        usedChars.pop();
-    }
-    return [];
-};
-
-function validate(arr, diff) {
-    for (let k = 0; k < arr.length; k++) {
-        let index = k + 1;
-        let ithElement = arr[k];
-        if (Math.abs(index - ithElement) !== diff) {
-            return [];
-        }
-    }
-    return arr;
+function readLine() {
+    return inputString[currentLine++];
 }
 
-function permute2(permutation, diff) {
-    let length = permutation.length,
-        c = new Array(length).fill(0),
-        i = 1, k, p;
-    let arr = permutation.slice();
-    if (validate(arr, diff).length > 0)
-        return arr;
-
-    while (i < length) {
-        if (c[i] < i) {
-            k = i % 2 && c[i];
-            p = permutation[i];
-            permutation[i] = permutation[k];
-            permutation[k] = p;
-            ++c[i];
-            i = 1;
-            arr = permutation.slice();
-            if (validate(arr, diff).length > 0)
-                return arr;
-
-        } else {
-            c[i] = 0;
-            ++i;
-        }
+// Complete the absolutePermutation function below.
+const absolutePermutation = (n, k) => {
+    if (k === 0) {
+        return Array.from(Array(n), (_, i) => i + 1)
     }
-    return [];
+    else if ((n / k) % 2 !== 0) {
+        return [-1];
+    }
+    else {
+        let add = true, perm = [];
+        for (let i = 1; i < n + 1; i++) {
+            add ? perm.push(i + k) : perm.push(i - k);
+            if (i % k === 0) {
+                add = add ? false : true;
+            }
+        }
+        return perm;
+    }
 }
-n = 10;
-k = 5;
 
-let numbers = Array.from(Array(n), (_, i) => i + 1);
+function main() {
+    const ws = fs.createWriteStream(process.env.OUTPUT_PATH);
 
-console.log((permute2(numbers, k)));
+    const t = parseInt(readLine(), 10);
+
+    for (let tItr = 0; tItr < t; tItr++) {
+        const nk = readLine().split(' ');
+
+        const n = parseInt(nk[0], 10);
+
+        const k = parseInt(nk[1], 10);
+
+        let result = absolutePermutation(n, k);
+
+        ws.write(result.join(" ") + "\n");
+    }
+
+    ws.end();
+}
