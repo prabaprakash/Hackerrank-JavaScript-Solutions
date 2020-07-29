@@ -2,4 +2,4 @@
 Solved entire easy problems & few medium problems in data structures category
 
 # Contributor
-Contributors always welcome, need help in algorithm documentations
+Contributors always welcome
