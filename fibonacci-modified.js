@@ -24,52 +24,16 @@ function readLine() {
     return inputString[currentLine++];
 }
 
-function add(a, b) {
-    let carry = 0;
-    let i = 0;
-    for (i = 0; i < b.length; i++) {
-        let n = a[i] + b[i] + carry;
-        a[i] = n % 10;
-        carry = Math.floor(n / 10);
-    }
-    while (carry > 0) {
-        a[i] = typeof a[i] !== 'undefined' ? a[i] : 0
-        let n = a[i] + carry;
-        a[i] = n % 10;
-        carry = Math.floor(n / 10);
-        i++;
-    }
-    return a;
-}
-
-const mul = (b, a) => {
-    let out = [];
-    let k = 0, carry = 0;
-    for (let i = 0; i < a.length; i++) {
-        for (let j = 0; j < b.length; j++) {
-            let e = typeof out[k] !== 'undefined' ? out[k] : 0;
-            let n = (a[i] * b[j]) + carry + e;
-            out[k] = n % 10;
-            carry = Math.floor(n / 10);
-            k++;
-        }
-        if (carry > 0) {
-            out[k] = carry;
-            carry = 0;
-        }
-        k = i + 1;
-    }
-    return out;
-}
 function fibonacciModified(t1, t2, n) {
     let hash = {};
-    hash[1] = [t1];
-    hash[2] = [t2];
+    hash[1] = BigInt(t1);
+    hash[2] = BigInt(t2);
     for (let i = 3; i < n + 1; i++) {
-        hash[i] = add(mul(hash[i - 1].map(x => x), hash[i - 1].map(x => x)), hash[i - 2].map(x => x))
+        hash[i] = (hash[i - 1] * hash[i - 1]) + hash[i - 2];
     }
-    return hash[n].reverse().join('');
+    return hash[n]
 }
+
 function main() {
     const ws = fs.createWriteStream(process.env.OUTPUT_PATH);
 
